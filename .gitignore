@@ -220,7 +220,9 @@ __marimo__/
 # --- Generated run artifacts (MidasCpp + this repo's own drivers) ---
 runs/
 outputs/
+report/
 test/runs/
+examples/*/runs/
 *.mout
 *.stdout
 *.stderr

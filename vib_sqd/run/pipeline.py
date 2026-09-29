@@ -134,10 +134,21 @@ def run_midascpp(
 
     # OccAllFund crashes MidasCpp at >= ~7 modes (upstream bug; see
     # MIDASCPP_BUG_OccAllFund.md). Default to ground-state-only there so the
-    # main pipeline does not hit it; the caller can force either way.
+    # main pipeline does not hit it; the caller can force either way. Only
+    # print the ">= 7 modes" rationale when THAT is actually why
+    # ground_state_only ended up True -- a caller-forced override (e.g. for
+    # a molecule with its own separate VSCF-convergence issue at < 7 modes)
+    # has nothing to do with the OccAllFund mode-count threshold, and
+    # printing this message for it would misreport the reason.
+    auto_triggered = (
+        ground_state_only is None
+        and occup is None
+        and n_modes is not None
+        and n_modes >= 7
+    )
     if ground_state_only is None:
-        ground_state_only = occup is None and n_modes is not None and n_modes >= 7
-    if ground_state_only and occup is None:
+        ground_state_only = auto_triggered
+    if auto_triggered:
         print(
             f"  (n_modes={n_modes} >= 7: OccGroundState only, "
             "avoiding the OccAllFund crash)"
