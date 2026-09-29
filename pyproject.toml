@@ -1,0 +1,50 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "vib-sqd"
+version = "0.1.0"
+description = "A Qiskit-native workflow for vibrational-state simulation with sample-based quantum diagonalization (SQD)."
+readme = "README.md"
+requires-python = ">=3.10"
+license = "Apache-2.0"
+license-files = ["LICENSE"]
+authors = [
+  {name = "Kunal Kumar"}
+]
+dependencies = [
+  "numpy>=1.26",
+  "scipy>=1.11",
+  "pandas>=2.0",
+  "matplotlib>=3.7",
+  "pyyaml>=6.0",
+  "pydantic>=2.7",
+  "qiskit>=1.0",
+  "qiskit-aer>=0.14",
+  "qiskit-nature>=0.7",
+  "qiskit-addon-sqd>=0.12.1"
+]
+
+[project.optional-dependencies]
+hardware = [
+  "qiskit-ibm-runtime>=0.24"
+]
+dev = [
+  "pytest>=8.0",
+  "pytest-cov>=5.0",
+  "ruff>=0.5",
+  "mypy>=1.10",
+  "black>=24.0"
+]
+
+[project.urls]
+Repository = "https://github.com/qiskit-community/vib-sqd"
+
+[tool.hatch.build.targets.wheel]
+packages = ["vib_sqd"]
+
+[tool.pytest.ini_options]
+markers = [
+    "slow: end-to-end / simulation tests that are slower (deselect with -m 'not slow')",
+]

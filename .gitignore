@@ -216,3 +216,15 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# --- Generated run artifacts (MidasCpp + this repo's own drivers) ---
+runs/
+outputs/
+test/runs/
+*.mout
+*.stdout
+*.stderr
+midasifc.system_log.*
+*RESTART.INFO
+*RESTART.INFO.OLD
+0/
