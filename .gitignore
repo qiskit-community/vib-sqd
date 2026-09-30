@@ -224,6 +224,7 @@ report/
 test/runs/
 examples/*/runs/
 *.mout
+!test/fixtures/**/*.mout
 *.stdout
 *.stderr
 midasifc.system_log.*

@@ -80,7 +80,14 @@ def test_harmonic_modal_matrix_elements_match_analytic_low_lying_values():
     q01 = compute_modal_matrix_element_1body(basis, lambda q: q, 0, 1)
     q20 = compute_modal_matrix_element_1body(basis, lambda q: q**2, 0, 0)
 
-    assert np.isclose(q01, 1 / np.sqrt(2), atol=5e-2)
+    # |q01| is the physically meaningful, platform-independent quantity: an
+    # off-diagonal element between two separately-solved eigenvectors is only
+    # defined up to each eigenvector's own overall sign, which scipy.linalg.eigh
+    # does not fix to a particular convention -- it can legitimately differ
+    # between BLAS/LAPACK backends (observed: +1/sqrt(2) on macOS/Accelerate,
+    # -1/sqrt(2) on Ubuntu/OpenBLAS in CI, for the identical input). q20 is a
+    # diagonal element (k == l), so it has no such ambiguity.
+    assert np.isclose(abs(q01), 1 / np.sqrt(2), atol=5e-2)
     assert np.isclose(q20, 0.5, atol=5e-2)
 
 
