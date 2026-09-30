@@ -101,5 +101,5 @@ def gpu_available():
     try:
         cp.cuda.runtime.getDeviceCount()
         return True
-    except Exception:  # noqa: BLE001
+    except Exception:
         return False

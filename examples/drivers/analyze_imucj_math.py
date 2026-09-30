@@ -46,21 +46,22 @@ Outputs: report/figures/imucj_math.png and a console table.
 """
 
 from __future__ import annotations
-import sys
-from pathlib import Path
-from itertools import product
 
-import numpy as np
+import sys
+from itertools import product
+from pathlib import Path
+
 import matplotlib
+import numpy as np
 
 matplotlib.use("Agg")
-import matplotlib.pyplot as plt
 
 _HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(_HERE))
 
 from qiskit import QuantumCircuit
 from qiskit.quantum_info import Operator
+
 from vib_sqd.circuits.ansatz_enhanced import (
     UVCCSDAnsatz,
     append_givens_rotation_native,
@@ -253,15 +254,16 @@ def glycine_warmstart_test(maxiter=200):
     import warnings
 
     warnings.filterwarnings("ignore")
-    import vib_sqd.basis.modal_transform as mb
-    from vib_sqd.classical.mop_forcefield import parse_mop, mop_to_forcefield, CM2AU
-    from vib_sqd.classical.vcc_extractor import extract_amplitudes
-    from vib_sqd.classical.vcc_solver import VCCAmplitudes
-    from vib_sqd.circuits.initial_states import build_vscf_reference_state
-    from vib_sqd.run.dualbasis import ensure_clean_vcc, _ordered, _assign
-    from vib_sqd.circuits.ucj_correlators import build_vim_ucj, rank_doubles_by_t2
     from qiskit.quantum_info import Statevector
     from scipy.optimize import minimize
+
+    import vib_sqd.basis.modal_transform as mb
+    from vib_sqd.circuits.initial_states import build_vscf_reference_state
+    from vib_sqd.circuits.ucj_correlators import build_vim_ucj, rank_doubles_by_t2
+    from vib_sqd.classical.mop_forcefield import CM2AU, mop_to_forcefield, parse_mop
+    from vib_sqd.classical.vcc_extractor import extract_amplitudes
+    from vib_sqd.classical.vcc_solver import VCCAmplitudes
+    from vib_sqd.run.dualbasis import _assign, _ordered, ensure_clean_vcc
 
     n_modes, n_modals, n_ho = 4, 3, 9
     mout, ffmop = ensure_clean_vcc(

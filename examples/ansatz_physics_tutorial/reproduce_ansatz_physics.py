@@ -37,7 +37,7 @@ _HERE = Path(__file__).resolve().parent
 _DRIVERS_DIR = _HERE.parent / "drivers"
 sys.path.insert(0, str(_DRIVERS_DIR))
 
-import numpy as np  # noqa: E402
+import numpy as np
 
 
 def main() -> None:

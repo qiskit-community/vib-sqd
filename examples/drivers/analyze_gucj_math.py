@@ -48,24 +48,22 @@ Outputs: report/figures/gucj_math.png and a console table.
 """
 
 from __future__ import annotations
+
 import sys
 from pathlib import Path
-from itertools import product
 
-import numpy as np
 import matplotlib
+import numpy as np
 
 matplotlib.use("Agg")
-import matplotlib.pyplot as plt
 
 _HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(_HERE))
 
 from qiskit import QuantumCircuit
-from qiskit.quantum_info import Operator
+
 from vib_sqd.circuits.ansatz_enhanced import (
     UVCCSDAnsatz,
-    append_givens_rotation_native,
 )
 
 FIG = _HERE / "report" / "figures"
@@ -74,17 +72,13 @@ np.set_printoptions(precision=4, suppress=True, linewidth=140)
 
 # reuse the exact conventions from analyze_imucj_math
 from analyze_imucj_math import (
-    physical_subspace,
-    onehot_index,
-    op_matrix_reversed,
-    restrict,
-    extract_generator,
-    N_MODES,
-    N_MODALS,
-    NQ,
     MQ,
+    NQ,
     PHYS,
     PHYS_LABELS,
+    extract_generator,
+    op_matrix_reversed,
+    restrict,
 )
 
 I_REF = PHYS_LABELS.index("00")

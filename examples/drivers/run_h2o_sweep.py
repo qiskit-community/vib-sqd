@@ -56,37 +56,36 @@ sys.path.insert(0, str(_HERE))
 # a near-singular eigenvalue during w**-0.5; silence it here.
 warnings.filterwarnings("ignore", category=RuntimeWarning, module="numpy")
 
-import vib_sqd.basis.modal_transform as mb
-from vib_sqd.classical.mop_forcefield import parse_mop, mop_to_forcefield, CM2AU
-from vib_sqd.classical.vcc_extractor import extract_amplitudes
-from vib_sqd.classical.vcc_solver import VCCAmplitudes
-from vib_sqd.circuits.initial_states import build_vscf_reference_state
-from vib_sqd.circuits.ucj_correlators import (
-    build_vim_ucj,
-    build_vg_ucj,
-    imucj_init_vector,
-    gucj_init_vector,
-)
-from vib_sqd.sqd.subspace_hamiltonian import build_subspace_hamiltonian
-from vib_sqd.sqd.vibrational_recovery import (
-    recover_direct_onehot_distribution,
-    occupancies_from_ground_state,
-    occupancies_from_raw_counts,
-    initial_uniform_modal_occupancies,
-    sample_basis_from_distribution,
-    _modal_indices_from_onehot,
-    _onehot_from_modal_indices,
-)
-from vib_sqd.hardware.shot_tiers import shots_for_qubit_count
-from vib_sqd.run.dualbasis import ensure_clean_vcc, _ordered, build_ansatz, init_vector
 from h2o_forcefield import (
     H2O_MOP,
-    N_MODES_FULL,
     N_HO,
-    ho_hamiltonian_sparse,
+    N_MODES_FULL,
     ho_diagonal_element,
     ho_submatrix,
-    compact_index,
+)
+
+import vib_sqd.basis.modal_transform as mb
+from vib_sqd.circuits.initial_states import build_vscf_reference_state
+from vib_sqd.circuits.ucj_correlators import (
+    build_vg_ucj,
+    build_vim_ucj,
+    gucj_init_vector,
+    imucj_init_vector,
+)
+from vib_sqd.classical.mop_forcefield import CM2AU, mop_to_forcefield, parse_mop
+from vib_sqd.classical.vcc_extractor import extract_amplitudes
+from vib_sqd.classical.vcc_solver import VCCAmplitudes
+from vib_sqd.hardware.shot_tiers import shots_for_qubit_count
+from vib_sqd.run.dualbasis import _ordered, build_ansatz, ensure_clean_vcc, init_vector
+from vib_sqd.sqd.subspace_hamiltonian import build_subspace_hamiltonian
+from vib_sqd.sqd.vibrational_recovery import (
+    _modal_indices_from_onehot,
+    _onehot_from_modal_indices,
+    initial_uniform_modal_occupancies,
+    occupancies_from_ground_state,
+    occupancies_from_raw_counts,
+    recover_direct_onehot_distribution,
+    sample_basis_from_distribution,
 )
 
 N_MODES = N_MODES_FULL
@@ -296,9 +295,10 @@ def dry_run_cell(basis, n_modals, measured, backend_name, rep_dir=None, layers=4
             "Set QISKIT_IBM_TOKEN and QISKIT_IBM_INSTANCE before --dry-run "
             "(a real backend.target is needed for an accurate preview)."
         )
+    from qiskit import qpy
     from qiskit_ibm_runtime import QiskitRuntimeService
+
     from vib_sqd.hardware.transpilation import transpile_interaction_aware
-    import qiskit.qpy as qpy
 
     svc = QiskitRuntimeService(
         channel="ibm_quantum_platform",
@@ -388,13 +388,15 @@ def submit_hardware_batch(
         raise SystemExit(
             "Set QISKIT_IBM_TOKEN and QISKIT_IBM_INSTANCE before --submit."
         )
-    from qiskit_ibm_runtime import QiskitRuntimeService, SamplerV2 as Sampler
-    from vib_sqd.hardware.transpilation import transpile_interaction_aware
+    from qiskit import qpy
+    from qiskit_ibm_runtime import QiskitRuntimeService
+    from qiskit_ibm_runtime import SamplerV2 as Sampler
+
     from vib_sqd.hardware.suppression import (
         RuntimeSuppressionConfig,
         apply_sampler_suppression_options,
     )
-    import qiskit.qpy as qpy
+    from vib_sqd.hardware.transpilation import transpile_interaction_aware
 
     if backend is None:
         svc = QiskitRuntimeService(

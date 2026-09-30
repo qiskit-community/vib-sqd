@@ -64,29 +64,27 @@ sys.path.insert(0, str(_HERE))
 
 warnings.filterwarnings("ignore", category=RuntimeWarning, module="numpy")
 
+import ch2fcl_forcefield as _ch2fcl
+import ch2o_forcefield as _ch2o
+import h2o_forcefield as _h2o
+
 import vib_sqd.basis.modal_transform as mb
-from vib_sqd.classical.mop_forcefield import parse_mop, mop_to_forcefield, CM2AU
-from vib_sqd.classical.vcc_extractor import extract_amplitudes
-from vib_sqd.classical.vcc_solver import VCCAmplitudes
 from vib_sqd.circuits.initial_states import build_vscf_reference_state
 from vib_sqd.circuits.ucj_correlators import (
-    build_vim_ucj,
     build_vg_ucj,
-    imucj_init_vector,
+    build_vim_ucj,
     gucj_init_vector,
+    imucj_init_vector,
 )
+from vib_sqd.classical.mop_forcefield import CM2AU, mop_to_forcefield, parse_mop
 from vib_sqd.hardware.shot_tiers import shots_for_qubit_count
-from vib_sqd.run.dualbasis import ensure_clean_vcc, build_ansatz, init_vector, _ordered
+from vib_sqd.run.dualbasis import _ordered, build_ansatz, ensure_clean_vcc, init_vector
 from vib_sqd.run.excited_state import (
     build_excited_amps,
-    excited_reference_energy,
     excited_recovery_loop,
+    excited_reference_energy,
     process_excited_hardware_result,
 )
-
-import h2o_forcefield as _h2o
-import ch2o_forcefield as _ch2o
-import ch2fcl_forcefield as _ch2fcl
 
 MOLECULES = {
     "h2o": dict(
@@ -154,9 +152,10 @@ def dry_run_cell(measured, backend_name, outdir=None, basis=BASIS):
             "Set QISKIT_IBM_TOKEN and QISKIT_IBM_INSTANCE before --dry-run "
             "(a real backend.target is needed for an accurate preview)."
         )
+    from qiskit import qpy
     from qiskit_ibm_runtime import QiskitRuntimeService
+
     from vib_sqd.hardware.transpilation import transpile_interaction_aware
-    import qiskit.qpy as qpy
 
     svc = QiskitRuntimeService(
         channel="ibm_quantum_platform",
@@ -236,13 +235,15 @@ def submit_excited_hardware_batch(
         raise SystemExit(
             "Set QISKIT_IBM_TOKEN and QISKIT_IBM_INSTANCE before --submit."
         )
-    from qiskit_ibm_runtime import QiskitRuntimeService, SamplerV2 as Sampler
-    from vib_sqd.hardware.transpilation import transpile_interaction_aware
+    from qiskit import qpy
+    from qiskit_ibm_runtime import QiskitRuntimeService
+    from qiskit_ibm_runtime import SamplerV2 as Sampler
+
     from vib_sqd.hardware.suppression import (
         RuntimeSuppressionConfig,
         apply_sampler_suppression_options,
     )
-    import qiskit.qpy as qpy
+    from vib_sqd.hardware.transpilation import transpile_interaction_aware
 
     if backend is None:
         svc = QiskitRuntimeService(

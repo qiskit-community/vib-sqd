@@ -1,0 +1,25 @@
+cff-version: 1.2.0
+message: >-
+  If you use this software, please cite it using the metadata below.
+  The datasets produced with it (real-hardware job ledgers, per-cell
+  recovered energies, timing) are archived separately on Zenodo -- see
+  the "references" entry below.
+title: vib-sqd
+type: software
+authors:
+  - given-names: Kunal
+    family-names: Kumar
+abstract: >-
+  A Qiskit-native workflow for vibrational-state simulation with
+  sample-based quantum diagonalization (SQD): MidasCpp force-field
+  parsing, classical-to-quantum warm-start initialization for the
+  UVCCSD/VLUCJ/VIm-uCJ/Vg-uCJ/CHC ansatz family, and a self-consistent
+  recovery loop for the ground and excited vibrational states.
+license: Apache-2.0
+repository-code: "https://github.com/qiskit-community/vib-sqd"
+references:
+  - type: dataset
+    title: >-
+      Vibrational-SQD real-hardware results: per-cell recovered
+      energies, job ledgers, and timing
+    doi: 10.5281/zenodo.23011464

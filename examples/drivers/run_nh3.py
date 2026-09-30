@@ -71,37 +71,36 @@ sys.path.insert(0, str(_HERE))
 # a near-singular eigenvalue during w**-0.5; silence it here.
 warnings.filterwarnings("ignore", category=RuntimeWarning, module="numpy")
 
+from nh3_forcefield import (
+    N_HO,
+    N_MODES_FULL,
+    NH3_MOP,
+    compact_index,
+    ho_hamiltonian_sparse,
+)
+
 import vib_sqd.basis.modal_transform as mb
-from vib_sqd.classical.mop_forcefield import parse_mop, mop_to_forcefield, CM2AU
-from vib_sqd.classical.vcc_extractor import extract_amplitudes
-from vib_sqd.classical.vcc_solver import VCCAmplitudes
 from vib_sqd.circuits.initial_states import build_vscf_reference_state
 from vib_sqd.circuits.ucj_correlators import (
-    build_vim_ucj,
     build_vg_ucj,
-    imucj_init_vector,
+    build_vim_ucj,
     gucj_init_vector,
+    imucj_init_vector,
 )
-from vib_sqd.sqd.subspace_hamiltonian import build_subspace_hamiltonian
-from vib_sqd.sqd.vibrational_recovery import (
-    recover_direct_onehot_distribution,
-    occupancies_from_ground_state,
-    occupancies_from_raw_counts,
-    initial_uniform_modal_occupancies,
-    sample_basis_from_distribution,
-    _modal_indices_from_onehot,
-    _onehot_from_modal_indices,
-)
+from vib_sqd.classical.mop_forcefield import CM2AU, mop_to_forcefield, parse_mop
+from vib_sqd.classical.mop_forcefield import parse_mop as _parse_mop
+from vib_sqd.classical.vcc_extractor import extract_amplitudes
+from vib_sqd.classical.vcc_solver import VCCAmplitudes
 from vib_sqd.run.dualbasis import _ordered, build_ansatz, init_vector
 from vib_sqd.run.pipeline import run_midascpp
-from vib_sqd.classical.mop_subset import write_subset_mop
-from vib_sqd.classical.mop_forcefield import parse_mop as _parse_mop
-from nh3_forcefield import (
-    NH3_MOP,
-    N_MODES_FULL,
-    N_HO,
-    ho_hamiltonian_sparse,
-    compact_index,
+from vib_sqd.sqd.subspace_hamiltonian import build_subspace_hamiltonian
+from vib_sqd.sqd.vibrational_recovery import (
+    _modal_indices_from_onehot,
+    initial_uniform_modal_occupancies,
+    occupancies_from_ground_state,
+    occupancies_from_raw_counts,
+    recover_direct_onehot_distribution,
+    sample_basis_from_distribution,
 )
 
 N_MODES = N_MODES_FULL
@@ -376,13 +375,15 @@ def submit_hardware_batch(basis, n_modals, measured, backend_name, shots):
         raise SystemExit(
             "Set QISKIT_IBM_TOKEN and QISKIT_IBM_INSTANCE before --submit."
         )
-    from qiskit_ibm_runtime import QiskitRuntimeService, SamplerV2 as Sampler
     from qiskit.transpiler.preset_passmanagers import generate_preset_pass_manager
-    from vib_sqd.hardware.transpilation import choose_best_connected_line
+    from qiskit_ibm_runtime import QiskitRuntimeService
+    from qiskit_ibm_runtime import SamplerV2 as Sampler
+
     from vib_sqd.hardware.suppression import (
         RuntimeSuppressionConfig,
         apply_sampler_suppression_options,
     )
+    from vib_sqd.hardware.transpilation import choose_best_connected_line
 
     nq = n_modals * N_MODES
     svc = QiskitRuntimeService(
