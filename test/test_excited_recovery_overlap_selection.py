@@ -27,6 +27,7 @@ recovered the ground-state energy (off by >1000 cm^-1); the fix recovers
 the excited reference almost exactly.
 """
 
+import os
 import warnings
 from pathlib import Path
 
@@ -51,8 +52,15 @@ from vib_sqd.run.excited_state import (
 )
 from vib_sqd.sqd.vibrational_recovery import _onehot_from_modal_indices
 
-midascpp = pytest.importorskip(
-    "vib_sqd.run.pipeline", reason="requires a local MidasCpp installation"
+# vib_sqd.run.pipeline itself always imports fine (pure Python) whether or
+# not a real MidasCpp binary exists, so pytest.importorskip on the module
+# does NOT skip this test in a CI environment with no MidasCpp install --
+# it would instead fail later, inside the fixture below, with a real
+# FileNotFoundError. Skip explicitly on whether MIDASCPP_BIN actually
+# points at a real file.
+pytestmark = pytest.mark.skipif(
+    not os.environ.get("MIDASCPP_BIN") or not Path(os.environ["MIDASCPP_BIN"]).exists(),
+    reason="requires a local MidasCpp installation (set MIDASCPP_BIN)",
 )
 
 

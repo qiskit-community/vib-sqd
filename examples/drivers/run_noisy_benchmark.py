@@ -40,41 +40,42 @@ Console: retained fraction + recovered gap (noiseless vs noisy+postsel+SQD).
 """
 
 from __future__ import annotations
-import json, sys, warnings
-from pathlib import Path
+
+import json
+import sys
+import warnings
 from itertools import product
+from pathlib import Path
 
 warnings.filterwarnings("ignore")
-import numpy as np
 import matplotlib
+import numpy as np
 
 matplotlib.use("Agg")
-import matplotlib.pyplot as plt
-from scipy.optimize import minimize
 from qiskit import transpile
 from qiskit.quantum_info import Statevector
+from scipy.optimize import minimize
 
 _HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(_HERE))
 
 import vib_sqd.basis.modal_transform as mb
 import vib_sqd.sqd.qsci_augment as qa
-from vib_sqd.classical.mop_forcefield import parse_mop, mop_to_forcefield, CM2AU
+from vib_sqd.circuits.initial_states import build_vscf_reference_state
+from vib_sqd.circuits.ucj_correlators import (
+    build_vg_ucj,
+    build_vim_ucj,
+    gucj_init_vector,
+    imucj_init_vector,
+)
+from vib_sqd.classical.mop_forcefield import CM2AU, mop_to_forcefield, parse_mop
 from vib_sqd.classical.vcc_extractor import extract_amplitudes
 from vib_sqd.classical.vcc_solver import VCCAmplitudes
-from vib_sqd.circuits.initial_states import build_vscf_reference_state
 from vib_sqd.run.dualbasis import (
-    ensure_clean_vcc,
-    _ordered,
     _assign,
     build_ansatz,
+    ensure_clean_vcc,
     init_vector,
-)
-from vib_sqd.circuits.ucj_correlators import (
-    build_vim_ucj,
-    build_vg_ucj,
-    imucj_init_vector,
-    gucj_init_vector,
 )
 
 FIG = _HERE / "report" / "figures"
@@ -285,7 +286,7 @@ def main():
             default=float,
         )
     )
-    from vib_sqd.analysis.plots import plot_noisy_overlay, plot_noisy_compare
+    from vib_sqd.analysis.plots import plot_noisy_compare, plot_noisy_overlay
 
     plot_noisy_overlay(
         occs,

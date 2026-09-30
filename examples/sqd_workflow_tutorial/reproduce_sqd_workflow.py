@@ -45,23 +45,23 @@ _HERE = Path(__file__).resolve().parent
 _DRIVERS_DIR = _HERE.parent / "drivers"
 sys.path.insert(0, str(_DRIVERS_DIR))
 
-from qiskit.quantum_info import Statevector  # noqa: E402
+from qiskit.quantum_info import Statevector
 
-from vib_sqd.classical.mop_forcefield import (
-    parse_mop,
-    mop_to_forcefield,
-    CM2AU,
-)  # noqa: E402
-from vib_sqd.classical.vcc_extractor import extract_amplitudes  # noqa: E402
-from vib_sqd.classical.vcc_solver import VCCAmplitudes  # noqa: E402
-import vib_sqd.basis.modal_transform as mb  # noqa: E402
-import vib_sqd.sqd.qsci_augment as qa  # noqa: E402
-from vib_sqd.circuits.initial_states import build_vscf_reference_state  # noqa: E402
+import vib_sqd.basis.modal_transform as mb
+import vib_sqd.sqd.qsci_augment as qa
+from vib_sqd.circuits.initial_states import build_vscf_reference_state
 from vib_sqd.circuits.ucj_correlators import (
     build_vim_ucj,
     imucj_init_vector,
-)  # noqa: E402
-from vib_sqd.run.dualbasis import ensure_clean_vcc, _assign  # noqa: E402
+)
+from vib_sqd.classical.mop_forcefield import (
+    CM2AU,
+    mop_to_forcefield,
+    parse_mop,
+)
+from vib_sqd.classical.vcc_extractor import extract_amplitudes
+from vib_sqd.classical.vcc_solver import VCCAmplitudes
+from vib_sqd.run.dualbasis import _assign, ensure_clean_vcc
 
 GLYCINE_MOP = _DRIVERS_DIR.parent.parent / "data" / "mop_files" / "glycinehplus.mop"
 

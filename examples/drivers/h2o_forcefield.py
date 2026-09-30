@@ -32,11 +32,11 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from vib_sqd.basis.ho_hamiltonian import (  # noqa: F401
+from vib_sqd.basis.ho_hamiltonian import (
     compact_index,
     ho_diagonal_element,
-    ho_submatrix,
     ho_hamiltonian_sparse,
+    ho_submatrix,
 )
 
 _HERE = Path(__file__).resolve().parent

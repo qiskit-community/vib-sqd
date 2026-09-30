@@ -83,7 +83,7 @@ def test_modal_hamiltonian_reproduces_reasonable_ground_state():
 # --------------------------------------------------------------------------- #
 def _has_aer():
     try:
-        import qiskit_aer  # noqa: F401
+        import qiskit_aer
 
         return True
     except Exception:

@@ -96,7 +96,7 @@ def _midas_extlib_paths() -> str:
                 for sub in sorted(extlibs.glob(pattern)):
                     if str(sub) not in paths:
                         paths.append(str(sub))
-    except Exception:  # noqa: BLE001
+    except Exception:
         pass
     if not paths:
         # Last-resort fallback -- placeholders, not a real shared install
