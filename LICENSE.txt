@@ -199,3 +199,14 @@
    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
    See the License for the specific language governing permissions and
    limitations under the License.
+
+================================================================================
+
+This repository is licensed under the Apache License 2.0, as above.
+
+Note that this pipeline calls MidasCpp (https://midascpp.gitlab.io/) as a
+separate, external program to solve the classical vibrational
+coupled-cluster equations; MidasCpp is not included in or distributed with
+this repository. MidasCpp is licensed under the GNU Lesser General Public
+License v2.1 (LGPL-2.1):
+https://source.coderefinery.org/midascpp/midascpp/-/blob/master/LICENSE

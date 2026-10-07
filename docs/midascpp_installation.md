@@ -11,6 +11,14 @@ This guide covers installing MidasCpp for vibrational coupled cluster calculatio
 - **Disk Space**: ~500 MB for source + build
 - **Memory**: 4+ GB RAM recommended
 
+## License
+
+MidasCpp is distributed separately from this repository under the
+[GNU Lesser General Public License v2.1](https://source.coderefinery.org/midascpp/midascpp/-/blob/master/LICENSE)
+(LGPL-2.1), a different license from this repository's own Apache License
+2.0 (see [`LICENSE.txt`](../LICENSE.txt)). Building and using MidasCpp is
+subject to its own license terms, not this repository's.
+
 ## Installation Steps
 
 ### 1. Download MidasCpp

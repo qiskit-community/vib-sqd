@@ -63,9 +63,11 @@ python run_h2o_sweep.py --modals 4 --basis modal --dry-run   # circuit cost prev
                                                                 #  to transpile against real calibration data)
 ```
 
-MidasCpp is a separate C++ program this pipeline calls to solve the classical
-VCC equations — without it, nothing here runs (there is no pure-Python
-fallback). See [`docs/midascpp_installation.md`](docs/midascpp_installation.md)
+MidasCpp is a separate C++ program, distributed under its own license (see
+[`docs/midascpp_installation.md`](docs/midascpp_installation.md#license)),
+that this pipeline calls to solve the classical VCC equations; this
+repository does not include a pure-Python alternative for that step. See
+[`docs/midascpp_installation.md`](docs/midascpp_installation.md)
 to build it, then point this package at your own install:
 
 ```bash
