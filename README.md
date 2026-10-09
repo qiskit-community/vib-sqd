@@ -9,6 +9,15 @@
 > [!NOTE]
 > This repository is under active development and the code here should not be considered stable. This is not an officially supported IBM Quantum software.
 
+> [!NOTE]
+> This repository contains research code related to the following paper:
+>
+> Title: Vibrational Sample-Based Quantum Diagonalization with Unitary-Cluster-Jastrow Ansätze on IBM QPUs
+>
+> Authors: Kunal Kumar, Erik Lötstedt, Yuri Kobayashi, Seiji Yunoki
+>
+> arXiv: https://arxiv.org/abs/2610.09532
+
 A Qiskit-native workflow for vibrational-state simulation with sample-based
 quantum diagonalization (SQD). It takes a molecular force field (from
 MidasCpp, or anything that can produce a MidasCpp `.mop` operator file —
